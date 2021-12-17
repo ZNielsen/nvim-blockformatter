@@ -19,6 +19,8 @@ To use, just `Plug 'ZNielsen/nvim-blockformatter'` or similar. Mappings are reco
 ```
 nnoremap <leader>nb100 :<C-U>silent lua require("blockformatter.block_normalize").normalize_block_normal(vim.v.count1, 100)<CR>
 nnoremap <leader>nb80  :<C-U>silent lua require("blockformatter.block_normalize").normalize_block_normal(vim.v.count1, 80)<CR>
+vnoremap <leader>nb100 :<C-U>silent lua require("blockformatter.block_normalize").normalize_block_visual(100)<CR>
+vnoremap <leader>nb80  :<C-U>silent lua require("blockformatter.block_normalize").normalize_block_visual(80)<CR>
 ```
 
 ### Block Commenting
