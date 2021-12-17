@@ -24,6 +24,21 @@ nnoremap <leader>nb80  :<C-U>silent lua require("blockformatter.block_normalize"
 ### Block Commenting
 ![Block Commenting Example](https://raw.githubusercontent.com/znielsen/nvim-blockformatter/main/.github/images/block_commenter_example.gif)
 
+Supported filetypes:
+- Javascript
+- Dockerfile
+- Python
+- Rust
+- Ruby
+- Bash
+- Yaml
+- Toml
+- Lua
+- Cpp
+- Zig
+- Vim
+- sh
+- C
 
 #### Example Maps
 ```

@@ -26,7 +26,6 @@ function M.toggle_comment(start_line_num, end_line_num)
     comment_table['toml'] = '#'
     comment_table['lua'] = '--'
     comment_table['cpp'] = '//'
-    comment_table['cpp'] = '//'
     comment_table['zig'] = '//'
     comment_table['vim'] = '"'
     comment_table['sh'] = '#'
