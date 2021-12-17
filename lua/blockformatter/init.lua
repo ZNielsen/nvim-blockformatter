@@ -1,4 +1,9 @@
-local blockformatter = require('blockformatter.functions')
+-- Copyright © Zach Nielsen 2021
 
-return blockformatter
+local modules = {}
+
+table.insert(modules, require('blockformatter.block_normalize'))
+table.insert(modules, require('blockformatter.block_comment'))
+
+return modules
 
