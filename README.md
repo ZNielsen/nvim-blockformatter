@@ -10,6 +10,7 @@ A small block formatting plugin for Neovim
 
 ## Examples
 ### Block Normalization
+![Block Normalization Example](https://raw.githubusercontent.com/znielsen/nvim-blockformatter/main/.github/images/block_normalizer_example.gif)
 
 #### Example Maps
 ```
@@ -18,6 +19,8 @@ nnoremap <leader>nb80  :<C-U>silent lua require("blockformatter.block_normalize"
 ```
 
 ### Block Commenting
+![Block Commenting Example](https://raw.githubusercontent.com/znielsen/nvim-blockformatter/main/.github/images/block_commenter_example.gif)
+
 
 #### Example Maps
 ```
