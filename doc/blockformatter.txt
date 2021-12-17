@@ -4,8 +4,24 @@
 blockformatter.nvim is a plugin for formatting block text.
 Development is in progress.
 
-BlockFormat                                                        *BlockFormat*
+BlockFormatterNormalize {col}                          *BlockFormatterNormalize*
+    Formats a block of text to wrap at the specified column.
+
+    Requires an argument -- the column number to wrap at. May be passed a count
+    argument to indicate the number of lines from the cursor to normalize.
+
+BlockFormatterNormalizeRange {col}                *BlockFormatterNormalizeRange*
     Format a visual selection to a target column width.
 
-    Requires an argument -- the column number to trim at.
+    Requires an argument -- the column number to wrap at.
+
+BlockFormatterComment                                    *BlockFormatterComment*
+    Toggles a leading comment for the line.
+
+    May be passed a count argument to indicate the number of lines from the
+    cursor to comment.
+
+BlockFormatterCommentRange                          *BlockFormatterCommentRange*
+
+    Toggles a leading comment for a visual range.
 ================================================================================
