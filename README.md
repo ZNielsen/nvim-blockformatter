@@ -11,6 +11,8 @@ A small block formatting plugin for Neovim
 
 To use, just `Plug 'ZNielsen/nvim-blockformatter'` or similar. Mappings are recommended, as the command names are a bit verbose. Suggestions are below.
 
+The minimap in the examples is [minimap.vim](https://github.com/wfxr/minimap.vim).
+
 ## Examples
 ### Block Normalization
 ![Block Normalization Example](https://raw.githubusercontent.com/znielsen/nvim-blockformatter/main/.github/images/block_normalizer_example.gif)
