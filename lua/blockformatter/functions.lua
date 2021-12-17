@@ -1,17 +1,19 @@
 local M = {}
 
-function M.format_block_visual(col)
-    M.format_block(vim.fn.line("'<"), vim.fn.line("'>"), col)
+function M.normalize_block_visual(col)
+    print("visual, args: " .. col)
+    M.normalize_block(vim.fn.line("'<"), vim.fn.line("'>"), col)
 end
 
-function M.format_block_normal(num_lines, col)
+function M.normalize_block_normal(num_lines, col)
+    print("normal, args: " .. num_lines .. ", " .. col)
     -- Get range
     local start_line_num = vim.fn.line('.')
     local end_line_num = start_line_num + num_lines - 1
-    M.format_block(start_line_num, end_line_num, col)
+    M.normalize_block(start_line_num, end_line_num, col)
 end
 
-function M.format_block(start_line_num, end_line_num, col)
+function M.normalize_block(start_line_num, end_line_num, col)
     -- print("start: " .. start_line_num .. ", end: " .. end_line_num .. ", col: " .. col)
     -- Get the leading number of spaces from the start line
     local line = vim.fn.getline(start_line_num)
@@ -81,6 +83,10 @@ function M.format_block(start_line_num, end_line_num, col)
     vim.fn.deletebufline(vim.fn.bufname(), start_line_num, end_line_num)
     vim.fn.append(start_line_num-1, formatted_list)
 end
+
+-- TODO - A function for formatting comments to the same level. Could this be extended to any generic start character?
+--        Just grab the character under the cursor and align them?
+-- TODO - Move the block comment function to here - rename files to be the one function they do
 
 return M
 
