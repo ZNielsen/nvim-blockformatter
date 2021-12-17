@@ -3,7 +3,7 @@ if exists('g:loaded_blockformatter')
 endif
 
 
-command! -nargs=1 BlockFormat       lua require("BlockFormatter/main").format_block_visual(<args>)
+command! -nargs=1 BlockFormat       lua require("blockformatter").format_block_visual(<args>)
 
 
 let g:loaded_blockformatter = 1
