@@ -1,0 +1,11 @@
+================================================================================
+                                                           *blockformatter.nvim*
+
+blockformatter.nvim is a plugin for formatting block text.
+Development is in progress.
+
+BlockFormat                                                        *BlockFormat*
+    Format a visual selection to a target column width.
+
+    Requires an argument -- the column number to trim at.
+================================================================================
