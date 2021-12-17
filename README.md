@@ -8,6 +8,8 @@ A small block formatting plugin for Neovim
 | `BlockFormatterComment`              | Toggles a leading comment for the line. May take a leading count argument. |
 | `BlockFormatterCommentRange`         | Toggles a leading comment for a visual range.                              |
 
+`Plug 'ZNielsen/nvim-blockformatter'`
+
 ## Examples
 ### Block Normalization
 ![Block Normalization Example](https://raw.githubusercontent.com/znielsen/nvim-blockformatter/main/.github/images/block_normalizer_example.gif)
