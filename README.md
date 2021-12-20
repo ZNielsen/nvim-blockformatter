@@ -1,12 +1,15 @@
 # nvim-blockformatter
 A small block formatting plugin for Neovim
 
-| Command                              | Description                                                                |
-|--------------------------------------|----------------------------------------------------------------------------|
-| `BlockFormatterNormalize <arg>`      | Formats a block of text to wrap at the specified column.                   |
-| `BlockFormatterNormalizeRange <arg>` | Formats a visual range of text to wrap at the specified column.            |
-| `BlockFormatterComment`              | Toggles a leading comment for the line. May take a leading count argument. |
-| `BlockFormatterCommentRange`         | Toggles a leading comment for a visual range.                              |
+| Command                              | Description                                                                 |
+|--------------------------------------|-----------------------------------------------------------------------------|
+| `BlockFormatterNormalize <arg>`      | Formats a block of text to wrap at the specified column.                    |
+| `BlockFormatterNormalizeRange <arg>` | Formats a visual range of text to wrap at the specified column.             |
+| `BlockFormatterComment`              | Toggles a leading comment for the line. May take a leading count argument.  |
+| `BlockFormatterCommentRange`         | Toggles a leading comment for a visual range.                               |
+| `BlockFormatterAlign`                | Format trailing content to be in the same column. Takes leading count arg.  |
+| `BlockFormatterAlignRange`           | Format trailing content to be in the same column. Uses visual range.        |
+| `BlockFormatterAlignAuto`            | Format trailing content to be in the same column. See helpfile.             |
 
 
 To use, just `Plug 'ZNielsen/nvim-blockformatter'` or similar. Mappings are recommended, as the command names are a bit verbose. Suggestions are below.
@@ -33,8 +36,6 @@ vnoremap <leader>nb80  :<C-U>silent lua require("blockformatter.block_normalize"
 nnoremap \\ :<C-U>silent lua require('blockformatter.block_comment').toggle_comment_normal(vim.v.count1)<CR>
 vnoremap \\ :<C-U>silent lua require('blockformatter.block_comment').toggle_comment_visual()<CR>
 ```
-
-
 #### Supported filetypes
 - Javascript
 - Dockerfile
@@ -50,3 +51,6 @@ vnoremap \\ :<C-U>silent lua require('blockformatter.block_comment').toggle_comm
 - Vim
 - sh
 - C
+
+### Block Alignment
+![Block Alignment Example](https://raw.githubusercontent.com/znielsen/nvim-blockformatter/main/.github/images/block_aligner_example.gif)
