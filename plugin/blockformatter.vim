@@ -17,15 +17,9 @@ command! -range   BlockFormatterCommentRange    lua require('blockformatter.bloc
 " nnoremap \\ :<C-U>silent lua require('blockformatter.block_comment').toggle_comment_normal(vim.v.count1)<CR>
 " vnoremap \\ :<C-U>silent lua require('blockformatter.block_comment').toggle_comment_visual()<CR>
 
-
-" TODO - A function for formatting comments to the same level. Could this be extended to any generic start character?
-"        Just grab the character under the cursor and align them?
 command! -range=1 BlockFormatterAlign         lua require('blockformatter.block_align').token_align_normal(<count>)
-command! -range   BlockFormatterAlignRange    lua require('blockformatter.block_align').token_align_comment(<line1>, <line2>)
-" Example maps
-" nnoremap \\ :<C-U>silent lua require('blockformatter.block_align').token_align_normal(vim.v.count1)<CR>
-" vnoremap \\ :<C-U>silent lua require('blockformatter.block_align').token_align_visual()<CR>
-
+command! -range   BlockFormatterAlignRange    lua require('blockformatter.block_align').token_align_visual()
+command!          BlockFormatterAlignAuto     lua require('blockformatter.block_align').token_align_auto()
 
 let g:loaded_blockformatter = 1
 

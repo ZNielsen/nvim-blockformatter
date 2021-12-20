@@ -2,22 +2,45 @@
 
 local M = {}
 
-function get_token(cursor_pos)
+-- Need to escape lua's "pattern" characters
+-- See https://stackoverflow.com/questions/9790688/escaping-strings-for-gsub
+local function esc(x)
+   return (x:gsub('%%', '%%%%')
+            :gsub('^%^', '%%^')
+            :gsub('%$$', '%%$')
+            :gsub('%(', '%%(')
+            :gsub('%)', '%%)')
+            :gsub('%.', '%%.')
+            :gsub('%[', '%%[')
+            :gsub('%]', '%%]')
+            :gsub('%*', '%%*')
+            :gsub('%+', '%%+')
+            :gsub('%-', '%%-')
+            :gsub('%?', '%%?'))
+end
+
+local function get_token(cursor_pos)
     -- Get character/word under the cursor. This is the token character.
     -- DANGER - col is byte position - may not work with larger unicode characters
-    local line_num  = cursor_pos[1]
-    local start_col = cursor_pos[2]
-    local end_col   = cursor_pos[2]
+    local line_num  = cursor_pos[2]
+    local start_col = cursor_pos[3]
+    local end_col   = cursor_pos[3]
 
     local line = vim.fn.getline(line_num)
-    while line:sub(start_num-1) ~= " " do
+    while line:sub(start_col-1, start_col-1) ~= " " do
+        -- print("idx [".. start_col-1 .."]: [" .. line:sub(start_col-1, start_col-1) .."]")
         start_col = start_col - 1
     end
-    while line:sub(end_num+1) ~= " " do
+    while line:sub(end_col+1, end_col+1) ~= " " do
+        -- print("idx [".. end_col+1 .."]: [" .. line:sub(end_col+1, end_col+1) .."]")
         end_col = end_col + 1
     end
 
     return line:sub(start_col, end_col)
+end
+
+function M.token_align_auto()
+    M.token_align(get_token(vim.fn.getpos('.')), vim.fn.line('.'), nil)
 end
 
 function M.token_align_visual()
@@ -44,10 +67,10 @@ function M.token_align(token, start_line_num, end_line_num)
         local line = vim.fn.getline(line_num)
 
         -- Check if this line has the token
-        local find_start, find_end = line:find(token)
+        local find_start = line:find(esc(token))
         if nil ~= find_start then
             -- Get the alignment position for this line
-            local pre_token = line:sub(0, find_start)
+            local pre_token = line:sub(0, find_start-1)
             pre_token = pre_token:gsub("%s+$", "")
             align_col = math.max(align_col, pre_token:len())
         else
@@ -61,25 +84,25 @@ function M.token_align(token, start_line_num, end_line_num)
         end
 
         -- Check if there is a cap
-        if not end_line_num == nil and line_num >= end_line_num then
+        if nil ~= end_line_num and line_num >= end_line_num then
             looping = false
-        else
-            line_num = line_num + 1
         end
+
+        line_num = line_num + 1
     end
 
     -- Put the proper padding on each line
     for line_num=start_line_num,end_line_num do
         local line = vim.fn.getline(line_num)
-        local find_start = line:find(token)
+        local find_start = line:find(esc(token))
         if nil ~= find_start then
             -- Get the alignment position for this line
             local post_token = line:sub(find_start)
-            local pre_token = line:sub(0, find_start)
+            local pre_token = line:sub(0, find_start-1)
             pre_token = pre_token:gsub("%s+$", "")
 
             -- Insert spaces as needed
-            pre_token = pre_token + string.rep(" ", align_col - pre_token:len() + 1)
+            pre_token = pre_token .. string.rep(" ", align_col - pre_token:len() + 1)
             local new_line = pre_token .. post_token
 
             vim.fn.setline(line_num, new_line)

@@ -24,4 +24,64 @@ BlockFormatterComment                                    *BlockFormatterComment*
 BlockFormatterCommentRange                          *BlockFormatterCommentRange*
 
     Toggles a leading comment for a visual range.
+
+BlockFormatterAlign                                        *BlockFormatterAlign*
+    Formats trailing content (designated by a token) to be in the same column.
+
+    Pass a count argument to indicate the number of lines from the cursor to
+    align. Ensure the cursor is over the token you wish to line up.
+
+BlockFormatterAlignRange                              *BlockFormatterAlignRange*
+    Formats trailing content (designated by a token) to be in the same column.
+
+    Takes a range to format. Useful for continuing over lines that don't have
+    a token. Ensure the cursor is on the token you wish to line up.
+
+BlockFormatterAlignAuto                                *BlockFormatterAlignAuto*
+    Formats trailing content (designated by a token) to be in the same column.
+
+    Automatically detects the range to format - grabs the current line onward
+    until  a line without the token is found. Ensure the cursor is on the token
+    you wish to line up.
 ================================================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
