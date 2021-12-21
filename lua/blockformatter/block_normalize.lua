@@ -2,6 +2,8 @@
 
 local M = {}
 
+local util = require('blockformatter.common_utils')
+
 function M.normalize_block_visual(col)
     M.normalize_block(vim.fn.line("'<"), vim.fn.line("'>"), col)
 end
@@ -22,14 +24,20 @@ function M.normalize_block(start_line_num, end_line_num, col)
     if whitespace ~= nil then
         leading_space = whitespace:len()
     end
-    -- print("leading_space: " .. leading_space)
 
     if leading_space >= col then
         print("Leading space of ["..leading_space.."] is greater than requested end column ["..col.."]")
         return
     end
     local leading_space_str = string.rep(" ", leading_space)
-    -- print("leading_space_str: [" .. leading_space_str .. "]")
+
+    -- Check for leading comment
+    local do_comments = false
+    local comment = util.comment_table(vim.api.nvim_eval('&filetype'))
+    local stripped_line = line:gsub("^%s+", "")
+    if nil ~= comment and util.leads_with(stripped_line, comment) then
+        do_comments = true
+    end
 
     -- Trim newline + leading whitespace
     local holding_list = {}
@@ -44,7 +52,11 @@ function M.normalize_block(start_line_num, end_line_num, col)
             table_size = table_size + 1
             holding_str = ""
         else
-            holding_str = holding_str .. line:gsub("^%s+", "") .. " "
+            local stripped_line = line:gsub("^%s+", "")
+            if do_comments then
+                stripped_line = stripped_line:gsub(util.esc(comment), "", 1):gsub("^%s+", "")
+            end
+            holding_str = holding_str .. stripped_line .. " "
         end
     end
     -- Remove any trailing whitespace
@@ -62,15 +74,17 @@ function M.normalize_block(start_line_num, end_line_num, col)
 
             local next_word_regex = "^(%s*[%g]+)%s.*"
             local leading_whitespace_regex = "^%s+"
-            -- Grab words that will fit in column (minimum 1)
+
+            -- Set up first word and optional leading comment
             local num_chars = col - leading_space;
             local line = holding_str:gsub(next_word_regex, "%1", 1)
             holding_str = holding_str:sub(line:len() + 1)
             local next_word = holding_str:gsub(next_word_regex, "%1", 1)
-            -- print("holding_str: [" .. holding_str.."]")
-            -- print("starting word: [" .. line .."]")
-            -- print("next word: [" .. next_word.."]")
-            -- print("num_chars: "..num_chars..", len()s: " .. line:len()..' + '..next_word:len()..' = '..line:len() + next_word:len())
+            if do_comments then
+                line = comment .. " " .. line
+            end
+
+            -- Grab words that will fit under the specified column (minimum 1)
             while line:len() + next_word:len() < num_chars and holding_str ~= ""
             do
                 line = line .. next_word
@@ -78,10 +92,6 @@ function M.normalize_block(start_line_num, end_line_num, col)
                 -- Consolidate any leading whitespace into single space
                 holding_str = holding_str:gsub(leading_whitespace_regex, " ")
                 next_word, matches = holding_str:gsub(next_word_regex, "%1", 1)
-                -- print("holding_str: [" .. holding_str.."]")
-                -- print("line so far: [" .. line .."]")
-                -- print("next word: [" .. next_word.."]")
-                -- print("num_chars: "..num_chars..", len()s: " .. line:len()..' + '..next_word:len()..' = '..line:len() + next_word:len())
             end
 
             table.insert(formatted_list, leading_space_str .. line)

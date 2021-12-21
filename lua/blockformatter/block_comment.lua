@@ -2,6 +2,8 @@
 
 local M = {}
 
+local util = require('blockformatter.common_utils')
+
 function M.toggle_comment_visual()
     M.toggle_comment(vim.fn.line("'<"), vim.fn.line("'>"))
 end
@@ -15,22 +17,7 @@ end
 
 function M.toggle_comment(start_line_num, end_line_num)
     -- Insert value from comment table into beginning of line
-    local comment_table = {}
-    comment_table['javascript'] = '//'
-    comment_table['dockerfile'] = '#'
-    comment_table['python'] = '#'
-    comment_table['rust'] = '//'
-    comment_table['ruby'] = '#'
-    comment_table['bash'] = '#'
-    comment_table['yaml'] = '#'
-    comment_table['toml'] = '#'
-    comment_table['lua'] = '--'
-    comment_table['cpp'] = '//'
-    comment_table['zig'] = '//'
-    comment_table['vim'] = '"'
-    comment_table['sh'] = '#'
-    comment_table['c'] = '//'
-    local comment = comment_table[vim.api.nvim_eval('&filetype')]
+    local comment = util.comment_table(vim.api.nvim_eval('&filetype'))
     if comment == nil then
         print("Error getting comment!")
         print("&filetype is " .. vim.api.nvim_eval('&filetype'))
@@ -53,7 +40,7 @@ function M.toggle_comment(start_line_num, end_line_num)
             comment_col = 0
         end
 
-        if line ~= "" and false == leads_with(line, comment) then
+        if line ~= "" and false == util.leads_with(line, comment) then
             nocomment_count = nocomment_count + 1
         end
     end
@@ -83,11 +70,11 @@ function M.toggle_comment(start_line_num, end_line_num)
                 newline = string.rep(" ", comment_col) .. newline .. string.rep(" ", whitespace:len() - comment_col)
                 end
                 newline = newline .. line
-            elseif leads_with(line, comment) then
+            elseif util.leads_with(line, comment) then
                 -- Remove the comment
                 line = line:sub(comment:len()+1)
                 -- If there's a leading space, delete it
-                if leads_with(line, " ") then
+                if util.leads_with(line, " ") then
                 line = line:sub(2)
                 end
                 -- Set the new line
@@ -101,18 +88,6 @@ function M.toggle_comment(start_line_num, end_line_num)
             vim.fn.setline(line_num, newline)
         end
     end
-end
-
-function leads_with(string, lead_query)
-    -- print("string:[" .. string .. "] length: " .. string:len())
-    -- print("query: [" .. lead_query .."], length: " .. lead_query:len())
-    for i=1,lead_query:len(),1 do
-        -- print("idx [" .. i .. "]: string[" .. string:sub(i,i) .. "], query[" .. lead_query:sub(i,i) .. "]")
-        if string:sub(i,i) ~= lead_query:sub(i,i) then
-            return false
-        end
-    end
-    return true
 end
 
 return M

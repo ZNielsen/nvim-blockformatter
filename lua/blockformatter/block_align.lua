@@ -2,22 +2,7 @@
 
 local M = {}
 
--- Need to escape lua's "pattern" characters
--- See https://stackoverflow.com/questions/9790688/escaping-strings-for-gsub
-local function esc(x)
-   return (x:gsub('%%', '%%%%')
-            :gsub('^%^', '%%^')
-            :gsub('%$$', '%%$')
-            :gsub('%(', '%%(')
-            :gsub('%)', '%%)')
-            :gsub('%.', '%%.')
-            :gsub('%[', '%%[')
-            :gsub('%]', '%%]')
-            :gsub('%*', '%%*')
-            :gsub('%+', '%%+')
-            :gsub('%-', '%%-')
-            :gsub('%?', '%%?'))
-end
+local util = require('blockformatter.common_utils')
 
 local function get_token(cursor_pos)
     -- Get character/word under the cursor. This is the token character.
@@ -67,7 +52,7 @@ function M.token_align(token, start_line_num, end_line_num)
         local line = vim.fn.getline(line_num)
 
         -- Check if this line has the token
-        local find_start = line:find(esc(token))
+        local find_start = line:find(util.esc(token))
         if nil ~= find_start then
             -- Get the alignment position for this line
             local pre_token = line:sub(0, find_start-1)
@@ -94,7 +79,7 @@ function M.token_align(token, start_line_num, end_line_num)
     -- Put the proper padding on each line
     for line_num=start_line_num,end_line_num do
         local line = vim.fn.getline(line_num)
-        local find_start = line:find(esc(token))
+        local find_start = line:find(util.esc(token))
         if nil ~= find_start then
             -- Get the alignment position for this line
             local post_token = line:sub(find_start)
