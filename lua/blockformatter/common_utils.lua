@@ -9,6 +9,7 @@ local_comment_table['python'] = '#'
 local_comment_table['rust'] = '//'
 local_comment_table['ruby'] = '#'
 local_comment_table['bash'] = '#'
+local_comment_table['conf'] = '#' -- For unlabeld bash
 local_comment_table['yaml'] = '#'
 local_comment_table['toml'] = '#'
 local_comment_table['lua'] = '--'
@@ -23,6 +24,12 @@ function M.comment_table(filetype)
 end
 
 function M.leads_with(string, lead_query)
+    if lead_query == nil and string == nil then
+        return true
+    end
+    if lead_query == nil or string == nil then
+        return false
+    end
     for i=1,lead_query:len(),1 do
         if string:sub(i,i) ~= lead_query:sub(i,i) then
             return false
