@@ -4,6 +4,9 @@ if exists('g:loaded_blockformatter')
     finish
 endif
 
+if !exists('g:prefer_block_comment')
+    let g:prefer_block_comment = 0
+endif
 
 command! -nargs=1 -range=1 BlockFormatterNormalize          lua require('blockformatter.block_normalize').normalize_block_normal(<count>, <args>)
 command! -nargs=1 -range   BlockFormatterNormalizeRange     lua require('blockformatter.block_normalize').normalize_block(<line1>, <line2>, <args>)

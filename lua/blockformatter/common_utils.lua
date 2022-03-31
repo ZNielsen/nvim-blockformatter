@@ -19,8 +19,21 @@ local_comment_table['vim'] = '"'
 local_comment_table['sh'] = '#'
 local_comment_table['c'] = '//'
 
+local block_comment_table = {}
+block_comment_table['html']['open'] = '<!--'
+block_comment_table['html']['close'] = '-->'
+block_comment_table['cpp']['open'] = '/*'
+block_comment_table['cpp']['close'] = '*/'
+block_comment_table['c']['open'] = '/*'
+block_comment_table['c']['close'] = '*/'
+
+
 function M.comment_table(filetype)
     return local_comment_table[filetype]
+end
+
+function M.block_comment_table(filetype)
+    return block_comment_table[filetype]
 end
 
 function M.leads_with(string, lead_query)

@@ -31,6 +31,10 @@ vnoremap <leader>nb80  :<C-U>silent lua require("blockformatter.block_normalize"
 ### Block Commenting
 ![Block Commenting Example](https://raw.githubusercontent.com/znielsen/nvim-blockformatter/main/.github/images/block_commenter_example.gif)
 
+#### Settings
+- `g:prefer_block_comment` (default 0) - For filetypes that support both line comments and block comments, set to true to prefer block-style comments
+    - Example: C has `//` and `/* */`. Set to `0` (default) would yield `// <line>`. Set to `1` would yield `/* <line> */`.
+
 #### Example Maps
 ```
 nnoremap \\ :<C-U>silent lua require('blockformatter.block_comment').toggle_comment_normal(vim.v.count1)<CR>

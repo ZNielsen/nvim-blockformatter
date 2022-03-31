@@ -16,12 +16,27 @@ function M.toggle_comment_normal(num_lines)
 end
 
 function M.toggle_comment(start_line_num, end_line_num)
-    -- Insert value from comment table into beginning of line
     local comment = util.comment_table(vim.api.nvim_eval('&filetype'))
-    if comment == nil then
+    local block_comment = util.block_comment_table(vim.api.nvim_eval('&filetype'))
+
+    if comment == nil and block_comment == nil then
         print("Error getting comment!")
         print("&filetype is " .. vim.api.nvim_eval('&filetype'))
     end
+
+    -- By default prefer single line comments
+    local use_block = false
+    if comment == nil or (g:prefer_block_comment and block_comment ~= nil) then
+        use_block = true
+    end
+
+    -- TODO - Block comment support
+        -- Check if Block comment prefferred
+        -- Do everything the same, but append the closing block at the end
+        -- Use the block aligner to tie off the back end
+        -- Add stripping off the back comment, if it exists
+        -- TODO - decide if we want to detect a block comment?
+            -- I'm leaning no, just assume we are undoing what this plugin puts in.
 
     -- If any lines are uncommented, it's an add
     local nocomment_count = 0
