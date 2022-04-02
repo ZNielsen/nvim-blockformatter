@@ -1,6 +1,8 @@
 ================================================================================
                                                            *blockformatter.nvim*
 
+1. Commands                                            *blockformatter-commands*
+
 blockformatter.nvim is a plugin for formatting block text.
 Development is in progress.
 
@@ -43,6 +45,22 @@ BlockFormatterAlignAuto                                *BlockFormatterAlignAuto*
     Automatically detects the range to format - grabs the current line onward
     until  a line without the token is found. Ensure the cursor is on the token
     you wish to line up.
+================================================================================
+1. Options                                              *blockformatter-options*
+
+
+g:prefer_wrapping_comments                          *g:prefer_wrapping_comments*
+type: |Number|
+default: `0`
+
+For filetypes that support both line comments and wrapping comments, set to `1`
+to prefer wrap-style comments
+
+Example: C has `//` and `/* */`.
+Set to `0` (default) would yield:
+`// <line>`
+Set to `1` would yield:
+`/* <line> */`
 ================================================================================
 
 

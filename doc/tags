@@ -1,8 +1,0 @@
-BlockFormatterAlign	blockformatter.txt	/*BlockFormatterAlign*
-BlockFormatterAlignAuto	blockformatter.txt	/*BlockFormatterAlignAuto*
-BlockFormatterAlignRange	blockformatter.txt	/*BlockFormatterAlignRange*
-BlockFormatterComment	blockformatter.txt	/*BlockFormatterComment*
-BlockFormatterCommentRange	blockformatter.txt	/*BlockFormatterCommentRange*
-BlockFormatterNormalize	blockformatter.txt	/*BlockFormatterNormalize*
-BlockFormatterNormalizeRange	blockformatter.txt	/*BlockFormatterNormalizeRange*
-blockformatter.nvim	blockformatter.txt	/*blockformatter.nvim*

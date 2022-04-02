@@ -16,11 +16,19 @@ function M.toggle_comment_normal(num_lines)
 end
 
 function M.toggle_comment(start_line_num, end_line_num)
-    -- Insert value from comment table into beginning of line
-    local comment = util.comment_table(vim.api.nvim_eval('&filetype'))
-    if comment == nil then
+    local comment = util.line_comment_table(vim.api.nvim_eval('&filetype'))
+    local wrapping_comment = util.wrapping_comment_table(vim.api.nvim_eval('&filetype'))
+
+    if comment == nil and wrapping_comment == nil then
         print("Error getting comment!")
         print("&filetype is " .. vim.api.nvim_eval('&filetype'))
+    end
+
+    -- By default prefer single line comments
+    local use_wrapping = false
+    if comment == nil or (vim.g.prefer_wrapping_comments ~= 0 and wrapping_comment ~= nil) then
+        use_wrapping = true
+        comment = wrapping_comment['open']
     end
 
     -- If any lines are uncommented, it's an add
@@ -28,17 +36,22 @@ function M.toggle_comment(start_line_num, end_line_num)
     local add_comment = true
     -- Track the column that the comment will go in
     local comment_col = 9999
+    local longest_line = 0
     for line_num=start_line_num,end_line_num do
         local line = vim.fn.getline(line_num)
 
         -- Strip the leading whitespace
         local whitespace = line:match("^%s+")
+        -- Check how much leading whitespace there is
         if whitespace ~= nil and whitespace:len() > 1 then
             line = line:sub(whitespace:len() + 1)
             comment_col = math.min(comment_col, whitespace:len())
         elseif line ~= "" then
             comment_col = 0
         end
+
+        -- Track the longest line for wrapping comments
+        longest_line = math.max(line:len(), longest_line)
 
         if line ~= "" and false == util.leads_with(line, comment) then
             nocomment_count = nocomment_count + 1
@@ -66,8 +79,17 @@ function M.toggle_comment(start_line_num, end_line_num)
             if add_comment then
                 newline = comment .. " "
                 if put_whitespace_back then
-                -- Add whitespace sandwich
-                newline = string.rep(" ", comment_col) .. newline .. string.rep(" ", whitespace:len() - comment_col)
+                    -- Add whitespace sandwich
+                    newline = string.rep(" ", comment_col) .. newline .. string.rep(" ", whitespace:len() - comment_col)
+                end
+
+                if use_wrapping then
+                    -- Add enough whitespace to line up all the back comments
+                    local spaces_to_add = longest_line - line:len() + 1
+                    for i=1,spaces_to_add do
+                        line = line .. " "
+                    end
+                    line = line .. wrapping_comment['close']
                 end
                 newline = newline .. line
             elseif util.leads_with(line, comment) then
@@ -75,8 +97,16 @@ function M.toggle_comment(start_line_num, end_line_num)
                 line = line:sub(comment:len()+1)
                 -- If there's a leading space, delete it
                 if util.leads_with(line, " ") then
-                line = line:sub(2)
+                    line = line:sub(2)
                 end
+
+                -- Remove the end comment if it's there
+                if use_wrapping and util.ends_with(line, wrapping_comment['close']) then
+                    line = line:sub(0, line:len() - wrapping_comment['close']:len())
+                    -- Strip off all trailing space
+                    line = line:gsub("%s+$", "")
+                end
+
                 -- Set the new line
                 newline = line
                 -- Add the whitespace back in
