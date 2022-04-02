@@ -26,7 +26,7 @@ function M.toggle_comment(start_line_num, end_line_num)
 
     -- By default prefer single line comments
     local use_wrapping = false
-    if comment == nil or (vim.g.prefer_wrapping_comment ~= 0 and wrapping_comment ~= nil) then
+    if comment == nil or (vim.g.prefer_wrapping_comments ~= 0 and wrapping_comment ~= nil) then
         use_wrapping = true
         comment = wrapping_comment['open']
     end
@@ -90,8 +90,14 @@ function M.toggle_comment(start_line_num, end_line_num)
                     -- Add whitespace sandwich
                     newline = string.rep(" ", comment_col) .. newline .. string.rep(" ", whitespace:len() - comment_col)
                 end
+
                 if use_wrapping then
-                    line = line .. " " .. wrapping_comment['close']
+                    -- Add enough whitespace to line up all the back comments
+                    local spaces_to_add = longest_line - line:len() + 1
+                    for i=1,spaces_to_add do
+                        line = line .. " "
+                    end
+                    line = line .. wrapping_comment['close']
                 end
                 newline = newline .. line
             elseif util.leads_with(line, comment) then
