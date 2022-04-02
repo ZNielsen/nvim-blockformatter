@@ -4,8 +4,8 @@ if exists('g:loaded_blockformatter')
     finish
 endif
 
-if !exists('g:prefer_block_comment')
-    let g:prefer_block_comment = 0
+if !exists('g:prefer_wrapping_comment')
+    let g:prefer_wrapping_comment = 0
 endif
 
 command! -nargs=1 -range=1 BlockFormatterNormalize          lua require('blockformatter.block_normalize').normalize_block_normal(<count>, <args>)
