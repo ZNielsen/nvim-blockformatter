@@ -16,7 +16,7 @@ function M.toggle_comment_normal(num_lines)
 end
 
 function M.toggle_comment(start_line_num, end_line_num)
-    local comment = util.comment_table(vim.api.nvim_eval('&filetype'))
+    local comment = util.line_comment_table(vim.api.nvim_eval('&filetype'))
     local wrapping_comment = util.wrapping_comment_table(vim.api.nvim_eval('&filetype'))
 
     if comment == nil and wrapping_comment == nil then

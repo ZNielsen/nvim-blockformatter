@@ -33,7 +33,7 @@ function M.normalize_block(start_line_num, end_line_num, col)
 
     -- Check for leading comment
     local do_comments = false
-    local comment = util.comment_table(vim.api.nvim_eval('&filetype'))
+    local comment = util.line_comment_table(vim.api.nvim_eval('&filetype'))
     local stripped_line = line:gsub("^%s+", "")
     if nil ~= comment and util.leads_with(stripped_line, comment) then
         do_comments = true
