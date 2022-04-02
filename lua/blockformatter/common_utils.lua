@@ -74,7 +74,6 @@ function M.ends_with(string, end_query)
 end
 
 -- Escape lua's "pattern" characters
--- See https://stackoverflow.com/questions/9790688/escaping-strings-for-gsub
 function M.esc(x)
    return (x:gsub('%%', '%%%%')
             :gsub('^%^', '%%^')

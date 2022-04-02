@@ -1,3 +1,5 @@
+-- Copyright © Zach Nielsen 2022
+
 describe("Common Utils Unit Tests", function()
     local utils = require "common_utils"
 

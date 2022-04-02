@@ -31,14 +31,6 @@ function M.toggle_comment(start_line_num, end_line_num)
         comment = wrapping_comment['open']
     end
 
-    -- TODO - wrapping comment support
-        -- Check if wrapping comment preferred
-        -- Do everything the same, but append the closing wrapping at the end
-        -- Use the wrapping aligner to tie off the back end
-        -- Add stripping off the back comment, if it exists
-        -- TODO - decide if we want to detect a wrapping comment?
-            -- I'm leaning no, just assume we are undoing what this plugin puts in.
-
     -- If any lines are uncommented, it's an add
     local nocomment_count = 0
     local add_comment = true
@@ -110,9 +102,7 @@ function M.toggle_comment(start_line_num, end_line_num)
 
                 -- Remove the end comment if it's there
                 if use_wrapping and util.ends_with(line, wrapping_comment['close']) then
-                    print("line, about to remove back: " .. line)
                     line = line:sub(0, line:len() - wrapping_comment['close']:len())
-                    print("line, after removing back : " .. line)
                     -- Strip off all trailing space
                     line = line:gsub("%s+$", "")
                 end
