@@ -43,12 +43,14 @@ vnoremap \\ :<C-U>silent lua require('blockformatter.block_comment').toggle_comm
 #### Supported filetypes
 - Javascript
 - Dockerfile
+- Markdown
 - Python
 - Rust
 - Ruby
 - Bash
 - Yaml
 - Toml
+- HTML
 - Lua
 - Cpp
 - Zig

@@ -20,6 +20,9 @@ line_comment_table['sh'] = '#'
 line_comment_table['c'] = '//'
 
 local wrapping_comment_table = {}
+wrapping_comment_table['markdown'] = {}
+wrapping_comment_table['markdown']['open'] = '<!--'
+wrapping_comment_table['markdown']['close'] = '-->'
 wrapping_comment_table['html'] = {}
 wrapping_comment_table['html']['open'] = '<!--'
 wrapping_comment_table['html']['close'] = '-->'

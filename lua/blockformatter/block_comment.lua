@@ -20,8 +20,7 @@ function M.toggle_comment(start_line_num, end_line_num)
     local wrapping_comment = util.wrapping_comment_table(vim.api.nvim_eval('&filetype'))
 
     if comment == nil and wrapping_comment == nil then
-        print("Error getting comment!")
-        print("&filetype is " .. vim.api.nvim_eval('&filetype'))
+        error("Filetype not in comment table. &filetype is " .. vim.api.nvim_eval('&filetype'))
     end
 
     -- By default prefer single line comments
