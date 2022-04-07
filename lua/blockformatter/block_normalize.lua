@@ -85,7 +85,7 @@ function M.normalize_block(start_line_num, end_line_num, col)
             end
 
             -- Grab words that will fit under the specified column (minimum 1)
-            while line:len() + next_word:len() < num_chars and holding_str ~= ""
+            while line:len() + next_word:len() <= num_chars and holding_str ~= ""
             do
                 line = line .. next_word
                 holding_str = holding_str:sub(next_word:len() + 1)
