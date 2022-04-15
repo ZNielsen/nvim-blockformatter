@@ -60,3 +60,9 @@ vnoremap \\ :<C-U>silent lua require('blockformatter.block_comment').toggle_comm
 
 ### Block Alignment
 ![Block Alignment Example](https://raw.githubusercontent.com/znielsen/nvim-blockformatter/main/.github/images/block_aligner_example.gif)
+
+#### Example Maps
+```
+nnoremap <leader>ab :<C-U>silent lua require("blockformatter.block_align").token_align_normal(vim.v.count1)<CR>
+vnoremap <leader>ab :<C-U>silent lua require("blockformatter.block_align").token_align_visual()<CR>
+```
