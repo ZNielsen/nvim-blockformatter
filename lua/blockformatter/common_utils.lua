@@ -13,6 +13,7 @@ line_comment_table['bash'] = '#'
 line_comment_table['conf'] = '#' -- For unlabeld bash
 line_comment_table['yaml'] = '#'
 line_comment_table['toml'] = '#'
+line_comment_table['cfg'] = '#'
 line_comment_table['lua'] = '--'
 line_comment_table['cpp'] = '//'
 line_comment_table['zig'] = '//'
