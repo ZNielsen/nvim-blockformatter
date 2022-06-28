@@ -53,6 +53,7 @@ vnoremap \\ :<C-U>silent lua require('blockformatter.block_comment').toggle_comm
 - HTML
 - Lua
 - Cpp
+- CSS
 - Zig
 - Vim
 - sh
