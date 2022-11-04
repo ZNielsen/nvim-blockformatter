@@ -64,6 +64,6 @@ vnoremap \\ :<C-U>silent lua require('blockformatter.block_comment').toggle_comm
 
 #### Example Maps
 ```
-nnoremap <leader>ab :<C-U>silent lua require("blockformatter.block_align").token_align_normal(vim.v.count1)<CR>
+nnoremap <leader>ab :<C-U>silent lua require("blockformatter.block_align").token_align_auto()<CR>
 vnoremap <leader>ab :<C-U>silent lua require("blockformatter.block_align").token_align_visual()<CR>
 ```
