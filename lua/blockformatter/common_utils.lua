@@ -5,6 +5,7 @@ local M = {}
 local line_comment_table = {}
 line_comment_table['javascript'] = '//'
 line_comment_table['dockerfile'] = '#'
+line_comment_table['sshconfig'] = '#'
 line_comment_table['mermaid'] = '%%'
 line_comment_table['python'] = '#'
 line_comment_table['rust'] = '//'
