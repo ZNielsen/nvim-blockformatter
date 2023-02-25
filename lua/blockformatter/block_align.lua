@@ -47,6 +47,7 @@ function M.token_align(token, start_line_num, end_line_num)
     --
     local align_col = 0
     local line_num = start_line_num
+    local lines_in_file = vim.api.nvim_buf_line_count(0)
     local looping = true
     while looping do
         local line = vim.fn.getline(line_num)
@@ -59,10 +60,11 @@ function M.token_align(token, start_line_num, end_line_num)
             pre_token = pre_token:gsub("%s+$", "")
             align_col = math.max(align_col, pre_token:len())
         else
-            -- If we don'thave a hard end line number, we are done looping when
+            -- If we hit the end of the file, we are done looking.
+            -- If we don't have a hard end line number, we are done looping when
             -- we hit a line that doesn't have the token. Set the end line number
-            -- for later
-            if nil == end_line_num then
+            -- for later.
+            if line == lines_in_file or nil == end_line_num then
                 looping = false
                 end_line_num = line_num
             end
