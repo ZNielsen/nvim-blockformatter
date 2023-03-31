@@ -22,10 +22,10 @@ The minimap in the examples is [minimap.vim](https://github.com/wfxr/minimap.vim
 
 #### Example Maps
 ```
-nnoremap <leader>nb100 :<C-U>silent lua require("blockformatter.block_normalize").normalize_block_normal(vim.v.count1, 100)<CR>
-nnoremap <leader>nb80  :<C-U>silent lua require("blockformatter.block_normalize").normalize_block_normal(vim.v.count1, 80)<CR>
-vnoremap <leader>nb100 :<C-U>silent lua require("blockformatter.block_normalize").normalize_block_visual(100)<CR>
-vnoremap <leader>nb80  :<C-U>silent lua require("blockformatter.block_normalize").normalize_block_visual(80)<CR>
+nnoremap <leader>bn100 :<C-U>silent lua require("blockformatter.block_normalize").normalize_block_normal(vim.v.count1, 100)<CR>
+nnoremap <leader>bn80  :<C-U>silent lua require("blockformatter.block_normalize").normalize_block_normal(vim.v.count1, 80)<CR>
+vnoremap <leader>bn100 :<C-U>silent lua require("blockformatter.block_normalize").normalize_block_visual(100)<CR>
+vnoremap <leader>bn80  :<C-U>silent lua require("blockformatter.block_normalize").normalize_block_visual(80)<CR>
 ```
 
 ### Block Commenting
@@ -65,6 +65,6 @@ vnoremap \\ :<C-U>silent lua require('blockformatter.block_comment').toggle_comm
 
 #### Example Maps
 ```
-nnoremap <leader>ab :<C-U>silent lua require("blockformatter.block_align").token_align_auto()<CR>
-vnoremap <leader>ab :<C-U>silent lua require("blockformatter.block_align").token_align_visual()<CR>
+nnoremap <leader>ba :<C-U>silent lua require("blockformatter.block_align").token_align_auto()<CR>
+vnoremap <leader>ba :<C-U>silent lua require("blockformatter.block_align").token_align_visual()<CR>
 ```
