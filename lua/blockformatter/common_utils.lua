@@ -21,6 +21,7 @@ line_comment_table['zig'] = '//'
 line_comment_table['vim'] = '"'
 line_comment_table['sh'] = '#'
 line_comment_table['c'] = '//'
+line_comment_table[''] = '#'
 
 local wrapping_comment_table = {}
 wrapping_comment_table['markdown'] = {}
@@ -38,6 +39,7 @@ wrapping_comment_table['css']['close'] = '*/'
 wrapping_comment_table['c'] = {}
 wrapping_comment_table['c']['open'] = '/*'
 wrapping_comment_table['c']['close'] = '*/'
+wrapping_comment_table[''] = '#'
 
 
 function M.line_comment_table(filetype)
