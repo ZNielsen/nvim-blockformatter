@@ -46,6 +46,7 @@ vnoremap \\ :<C-U>silent lua require('blockformatter.block_comment').toggle_comm
 - sshconfig
 - Markdown
 - Python
+- golang
 - Rust
 - Ruby
 - Bash
