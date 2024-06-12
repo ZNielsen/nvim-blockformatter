@@ -45,6 +45,7 @@ vnoremap \\ :<C-U>silent lua require('blockformatter.block_comment').toggle_comm
 - Dockerfile
 - sshconfig
 - Markdown
+- groovy
 - Python
 - golang
 - Rust
