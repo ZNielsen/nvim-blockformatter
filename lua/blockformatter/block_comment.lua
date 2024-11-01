@@ -16,6 +16,7 @@ function M.toggle_comment_normal(num_lines)
 end
 
 function M.toggle_comment(start_line_num, end_line_num)
+    local space_per_tab = 4 -- GH-12
     local comment = util.line_comment_table(vim.api.nvim_eval('&filetype'))
     local wrapping_comment = util.wrapping_comment_table(vim.api.nvim_eval('&filetype'))
 
@@ -41,10 +42,18 @@ function M.toggle_comment(start_line_num, end_line_num)
 
         -- Strip the leading whitespace
         local whitespace = line:match("^%s+")
+        local leading_space_vis_len = 0
+        local leading_space_count = 0
         -- Check how much leading whitespace there is
-        if whitespace ~= nil and whitespace:len() > 1 then
-            line = line:sub(whitespace:len() + 1)
-            comment_col = math.min(comment_col, whitespace:len())
+        if whitespace ~= nil and whitespace:len() > 0 then
+            leading_space_count = whitespace:len()
+            leading_space_vis_len = leading_space_count
+            if whitespace:sub(1, 1) == "\t" then
+                leading_space_vis_len = leading_space_count * space_per_tab
+            end
+            line = line:sub(leading_space_count + 1)
+            -- Get new minimum space
+            comment_col = math.min(comment_col, leading_space_vis_len)
         elseif line ~= "" then
             comment_col = 0
         end
@@ -66,20 +75,28 @@ function M.toggle_comment(start_line_num, end_line_num)
         -- Get the line
         local line = vim.fn.getline(line_num)
         if line ~= "" then
-            local newline = ""
+            local new_line = ""
             -- Strip the leading whitespace - keep it for later
             local put_whitespace_back = false
             local whitespace = line:match("^%s+")
-            if whitespace ~= nil and whitespace:len() > 1 then
-                line = line:sub(whitespace:len() + 1)
+            local leading_space_count = 0
+            local leading_space_type = " "
+            local num_space_to_insert = comment_col
+            if whitespace ~= nil and whitespace:len() > 0 then
+                leading_space_count = whitespace:len()
+                if whitespace:sub(1, 1) == "\t" then
+                    leading_space_type = "\t"
+                    num_space_to_insert = comment_col / space_per_tab
+                end
+                line = line:sub(leading_space_count + 1)
                 put_whitespace_back = true
             end
 
             if add_comment then
-                newline = comment .. " "
+                new_line = comment .. " "
                 if put_whitespace_back then
                     -- Add whitespace sandwich
-                    newline = string.rep(" ", comment_col) .. newline .. string.rep(" ", whitespace:len() - comment_col)
+                    new_line = string.rep(leading_space_type, num_space_to_insert) .. new_line .. string.rep(leading_space_type, leading_space_count - num_space_to_insert)
                 end
 
                 if use_wrapping then
@@ -90,7 +107,7 @@ function M.toggle_comment(start_line_num, end_line_num)
                     end
                     line = line .. wrapping_comment['close']
                 end
-                newline = newline .. line
+                new_line = new_line .. line
             elseif util.leads_with(line, comment) then
                 -- Remove the comment
                 line = line:sub(comment:len()+1)
@@ -107,14 +124,14 @@ function M.toggle_comment(start_line_num, end_line_num)
                 end
 
                 -- Set the new line
-                newline = line
+                new_line = line
                 -- Add the whitespace back in
                 if put_whitespace_back then
-                newline = whitespace .. newline
+                    new_line = whitespace .. new_line
                 end
             end
 
-            vim.fn.setline(line_num, newline)
+            vim.fn.setline(line_num, new_line)
         end
     end
 end
