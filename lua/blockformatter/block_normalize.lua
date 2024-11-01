@@ -16,20 +16,29 @@ function M.normalize_block_normal(num_lines, col)
 end
 
 function M.normalize_block(start_line_num, end_line_num, col)
+    local space_per_tab = 4 -- GH-12
     -- print("start: " .. start_line_num .. ", end: " .. end_line_num .. ", col: " .. col)
     -- Get the leading number of spaces from the start line
     local line = vim.fn.getline(start_line_num)
     local whitespace = line:match("^%s+")
-    local leading_space = 0
+    local leading_space_vis_len = 0
+    local leading_space_count = 0
+    local leading_space_type = " "
     if whitespace ~= nil then
-        leading_space = whitespace:len()
+        leading_space_count = whitespace:len()
+        leading_space_vis_len = leading_space_count
+        if whitespace:sub(1, 1) == "\t" then
+            leading_space_type = "\t"
+            leading_space_vis_len = leading_space_count * space_per_tab
+        end
     end
 
-    if leading_space >= col then
-        print("Leading space of ["..leading_space.."] is greater than requested end column ["..col.."]")
+    if leading_space_vis_len >= col then
+        print("Leading space of ["..leading_space_vis_len.."] is greater than requested end column ["..col.."]")
         return
     end
-    local leading_space_str = string.rep(" ", leading_space)
+    -- Don't want to reuse `whitespace`, since it can be nil. Make a known-good leading space string
+    local leading_space_str = string.rep(leading_space_type, leading_space_count)
 
     -- Check for leading comment
     local do_comments = false
@@ -76,7 +85,7 @@ function M.normalize_block(start_line_num, end_line_num, col)
             local leading_whitespace_regex = "^%s+"
 
             -- Set up first word and optional leading comment
-            local num_chars = col - leading_space;
+            local num_chars = col - leading_space_vis_len;
             local line = holding_str:gsub(next_word_regex, "%1", 1)
             holding_str = holding_str:sub(line:len() + 1)
             local next_word = holding_str:gsub(next_word_regex, "%1", 1)
